@@ -1,0 +1,8 @@
+@import "../shared";
+
+.app-button-unenc {
+	@include button;
+
+	&--blue { @include button--blue; }
+	&--red  { @include button--red; }
+}

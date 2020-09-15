@@ -1,0 +1,70 @@
+app-button-enc,
+app-button-unenc,
+[app-button-enc-host],
+[app-button-unenc-host] {
+	margin-right: 16px;
+}
+
+@mixin button--green {
+	background: #0B7;
+
+	&:hover {
+		background: #0A6;
+	}
+	&:focus {
+		box-shadow: 0 0 0 4px #0B76;
+	}
+	&:active {
+		background: #095;
+	}
+}
+
+/*
+For the unencapsulated component making use of the host element, our style overrides work exactly as
+expected on the first try, with no funny-business necessary.
+
+- Our custom class is applied to the expected element (the <button> tag).
+- We easily win the specificity conflict, since our App component *is* encapsulated, and our button
+  is not.
+*/
+.green-button {
+	@include button--green;
+}
+
+
+/*
+For the encapsulated component using the host element, our class applies to the expected element,
+but we lose the specificity conflict. Both the component's innate styling and our custom styling
+have the same level of specificity, but Angular renders our button's <style> tag further down in the
+DOM, which gives it precedence.
+
+To get our styles to apply, we need to add an extra level of specificity by adding the tag name to
+the selector.
+*/
+button.green-button--encapsulated {
+	@include button--green;
+}
+
+
+/*
+For the unencapsulated component that's *not* using the host element, our custom "green-button..."
+class is added to the parent element of the one we're trying to style, making things a little more
+complicated. Here we need to use the (deprecated) ::ng-deep pseudo-selector in order to reach into
+the component's child element and apply our custom styles to that.
+*/
+.green-button--non-host ::ng-deep .app-button-unenc {
+	@include button--green;
+}
+
+
+/*
+For the component that's encapsulated *and* not using the host element, we're dealing with the worst
+of both worlds.
+
+- First, we need to use ::ng-deep to reach into the component and style it's child element.
+- Secondly, since it's encapsulated, the component's style rules will win the specificity conflict,
+  so we need to increase the specificity an extra level by adding the tag name to the selector.
+*/
+.green-button--non-host--encapsulated ::ng-deep button.button {
+	@include button--green;
+}

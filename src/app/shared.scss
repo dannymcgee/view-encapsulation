@@ -1,0 +1,43 @@
+@mixin button {
+	display: inline-block;
+	padding: 8px 16px;
+	appearance: none;
+	color: #FFF;
+	font-family: sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 1;
+	border: none;
+	cursor: pointer;
+	border-radius: 8px;
+	user-select: none;
+	outline: none !important;
+}
+
+@mixin button--blue {
+	background: #0AF;
+
+	&:hover {
+		background: #09E;
+	}
+	&:focus {
+		box-shadow: 0 0 0 4px #0AF6;
+	}
+	&:active {
+		background: #08D;
+	}
+}
+
+@mixin button--red {
+	background: #C00;
+
+	&:hover {
+		background: #B00;
+	}
+	&:focus {
+		box-shadow: 0 0 0 4px #C006;
+	}
+	&:active {
+		background: #A00;
+	}
+}
